@@ -6,14 +6,16 @@ using UnityEngine.AI;
 public class testAgentMovement : MonoBehaviour
 {
     NavMeshAgent myNavMeshAgent;
+    Unit agentLogic;
     void Start()
     {
         myNavMeshAgent = GetComponent<NavMeshAgent>();
+        agentLogic = GetComponent<Unit>();
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1))
         {
             SetDestinationToMousePosition();
         }
@@ -25,7 +27,9 @@ public class testAgentMovement : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
         {
-            myNavMeshAgent.SetDestination(hit.point);
+            if (agentLogic.isSelected)
+                myNavMeshAgent.SetDestination(hit.point);
+
         }
     }
 }
