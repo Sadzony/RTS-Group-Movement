@@ -5,25 +5,38 @@ using UnityEngine;
 
 public class DebugMenuManager : MonoBehaviour
 {
-    [SerializeField] GameObject unitPrefab;
+
     [SerializeField] GameObject gameManager;
     Selector selectorScript;
+    UnitSpawner unitSpawnerScript;
+
     private void Start()
     {
-        selectorScript = gameManager.GetComponent<Selector>();
+        selectorScript = GetComponent<Selector>();
+        unitSpawnerScript= GetComponent<UnitSpawner>();
     }
 
     public void DeleteSelected()
     {
-        selectorScript.enabled = false;
-        foreach(Unit unit in SelectionManager.Instance.selectedUnits.ToList())
+        if (selectorScript.enabled == true)
         {
-            unit.Die();
+            selectorScript.enabled = false;
+            foreach (Unit unit in SelectionManager.Instance.selectedUnits.ToList())
+            {
+                unit.Die();
+            }
+            selectorScript.enabled = true;
         }
-        selectorScript.enabled = true;
     }
-    public void InstantiateUnit()
+    public void UnitSpawnMode()
     {
-        GameObject.Instantiate(unitPrefab, new Vector3(0, 0, 0), Quaternion.Euler(0,0,0));
+        SelectionManager.Instance.DeselectAll();
+        selectorScript.enabled = false;
+        unitSpawnerScript.enabled = true;
+    }
+    public void CursorMode()
+    {
+        unitSpawnerScript.enabled = false;
+        selectorScript.enabled = true;
     }
 }

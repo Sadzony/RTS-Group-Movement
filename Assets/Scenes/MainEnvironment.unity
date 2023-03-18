@@ -370,30 +370,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8018300818158221879, guid: 937ed8563626167479306874e37f1195, type: 3}
   m_PrefabInstance: {fileID: 1207468919105078878}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1069133098
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1069133095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a23f66f8170bba4f9abab009fe76373, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1069133101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1069133095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 492ab95a4bacd7846bb3354870c279c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!850595691 &1137116011
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -464,7 +440,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-11558
+  m_Name: pb_Mesh-11020
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -623,11 +599,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!224 &1579481870 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6004666663387068397, guid: 2f68a4c112d375247a9d8bf38816d5a5, type: 3}
-  m_PrefabInstance: {fileID: 3659099683372516033}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1651320298
 GameObject:
   m_ObjectHideFlags: 0
@@ -935,36 +906,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 8316024921631920603, guid: 937ed8563626167479306874e37f1195, type: 3}
-      propertyPath: testObj
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8316024921631920603, guid: 937ed8563626167479306874e37f1195, type: 3}
-      propertyPath: SelectionBox
-      value: 
-      objectReference: {fileID: 1579481870}
-    - target: {fileID: 8316024921631920603, guid: 937ed8563626167479306874e37f1195, type: 3}
-      propertyPath: selectionBox
-      value: 
-      objectReference: {fileID: 1579481870}
-    - target: {fileID: 8316024921631920603, guid: 937ed8563626167479306874e37f1195, type: 3}
-      propertyPath: SelectingLayer.m_Bits
-      value: 384
-      objectReference: {fileID: 0}
-    - target: {fileID: 8316024921631920603, guid: 937ed8563626167479306874e37f1195, type: 3}
-      propertyPath: SelectCastLayer.m_Bits
-      value: 384
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8018300818158221879, guid: 937ed8563626167479306874e37f1195, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1069133098}
-    - targetCorrespondingSourceObject: {fileID: 8018300818158221879, guid: 937ed8563626167479306874e37f1195, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1069133101}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 937ed8563626167479306874e37f1195, type: 3}
 --- !u!1001 &1387148371119678757
 PrefabInstance:
@@ -1020,6 +965,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4128642156189292097, guid: 1cbe0a65035bb974d826b7e10e6e89e4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8736305874483076795, guid: 1cbe0a65035bb974d826b7e10e6e89e4, type: 3}
+      propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -8049,6 +7998,10 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 1069133095}
+    - target: {fileID: 4220716833154651935, guid: 2f68a4c112d375247a9d8bf38816d5a5, type: 3}
+      propertyPath: unitPrefab
+      value: 
+      objectReference: {fileID: 1679789010811640959, guid: 1cbe0a65035bb974d826b7e10e6e89e4, type: 3}
     - target: {fileID: 6487409565215820433, guid: 2f68a4c112d375247a9d8bf38816d5a5, type: 3}
       propertyPath: m_Name
       value: Canvas

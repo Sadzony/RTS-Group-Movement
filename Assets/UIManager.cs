@@ -30,7 +30,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         cameraMovementScript = Camera.main.transform.parent.Find("CameraFollowPoint").GetComponent<CameraMovement>();
-        selectorSript = gameManager.GetComponent<Selector>();
+        selectorSript = GetComponent<Selector>();
     }
     private void Update()
     {
