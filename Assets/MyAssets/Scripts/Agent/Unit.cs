@@ -12,7 +12,7 @@ public class Unit : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SelectionManager.Instance.selectableUnits.Add(this);
+        SelectionManager.Instance.AddToSelectable(this);
         selectionSprite = this.gameObject.transform.Find("SelectionSprite").gameObject;
         selectionCollider = this.gameObject.transform.Find("SelectionCollider").GetComponent<Collider>();
     }
@@ -22,7 +22,7 @@ public class Unit : MonoBehaviour
         mesh.GetComponent<AgentAnimationController>().enabled = false;
         mesh.GetComponent<Animator>().SetTrigger("death");
 
-        SelectionManager.Instance.selectableUnits.Remove(this);
+        SelectionManager.Instance.RemoveFromSelectable(this);
         SelectionManager.Instance.Deselect(this);
 
         GetComponent<NavMeshAgent>().enabled = false;

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SelectionManager : MonoBehaviour
@@ -24,8 +25,28 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
-    public HashSet<Unit> selectableUnits = new HashSet<Unit>();
-    public HashSet<Unit> selectedUnits = new HashSet<Unit>();
+    protected HashSet<Unit> selectableUnits = new HashSet<Unit>();
+    protected HashSet<Unit> selectedUnits = new HashSet<Unit>();
+
+    public HashSet<Unit> GetSelected()
+    {
+        return selectedUnits;
+    }
+    public HashSet<Unit> GetSelectable()
+    {
+        return selectableUnits;
+    }
+
+    public void AddToSelectable(Unit unit)
+    {
+        selectableUnits.Add(unit); 
+        CommandManager.Instance.AddUnit(unit);
+    }
+    public void RemoveFromSelectable(Unit unit) 
+    {
+        selectableUnits.Remove(unit);
+        CommandManager.Instance.RemoveUnit(unit);
+    }
 
     public void Select(Unit unit)
     {
@@ -45,7 +66,7 @@ public class SelectionManager : MonoBehaviour
 
     public void DeselectAll()
     {
-        foreach(Unit unit in selectedUnits) 
+        foreach(Unit unit in selectedUnits.ToList()) 
         {
             unit.OnDeselected();
         }

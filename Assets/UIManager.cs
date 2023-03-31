@@ -22,25 +22,16 @@ public class UIManager : MonoBehaviour
             instance = this;
         }
     }
-    [SerializeField] GameObject gameManager;
     public List<UI_Mouse_Detector> detectors;
-    CameraMovement cameraMovementScript;
-    Selector selectorSript;
 
-    private void Start()
-    {
-        cameraMovementScript = Camera.main.transform.parent.Find("CameraFollowPoint").GetComponent<CameraMovement>();
-        selectorSript = GetComponent<Selector>();
-    }
-    private void Update()
+    public bool getMouseOver()
     {
         bool mouseOverUI = false;
         foreach (UI_Mouse_Detector detector in detectors)
         {
             if (detector.mouseOverUI == true) mouseOverUI = true;
         }
-        cameraMovementScript.mouseOverUI = mouseOverUI;
-        selectorSript.mouseOverUI = mouseOverUI;
+        return mouseOverUI;
 
 
     }

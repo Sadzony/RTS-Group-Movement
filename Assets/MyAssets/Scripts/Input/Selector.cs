@@ -15,8 +15,6 @@ public class Selector : MonoBehaviour
     bool selectionStarted;
     bool boxSelection;
     Unit clickedUnit;
-
-    [HideInInspector] public bool mouseOverUI;
     private void Start()
     {
         selectionStartPos = Vector3.zero;
@@ -27,28 +25,30 @@ public class Selector : MonoBehaviour
     }
     private void Update()
     {
+        HashSet<Unit> selectable = SelectionManager.Instance.GetSelectable();
         //On Click
-        if (Input.GetMouseButtonDown(0) && !mouseOverUI) 
+        if (Input.GetMouseButtonDown(0) && !UIManager.Instance.getMouseOver()) 
         {
             clickedUnit = null;
             //Send a raycast from mouse position and select that unit
             RaycastHit hit;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, SelectCastLayer))
             {
-                SelectionManager.Instance.selectableUnits.TryGetValue(hit.transform.parent.gameObject.GetComponent<Unit>(), out clickedUnit);
-                if(SelectionManager.Instance.selectableUnits.Contains(clickedUnit))
-                if (Input.GetKey(KeyCode.LeftShift))
+                if (selectable.TryGetValue(hit.transform.parent.gameObject.GetComponent<Unit>(), out clickedUnit))
                 {
-                    SelectionManager.Instance.ShiftClickSelect(clickedUnit);
+                    if (Input.GetKey(KeyCode.LeftShift))
+                    {
+                        SelectionManager.Instance.ShiftClickSelect(clickedUnit);
 
-                }
-                else if (Input.GetKey(KeyCode.LeftControl))
-                {
-                    SelectionManager.Instance.ControlClickSelect(clickedUnit);
-                }
-                else
-                {
-                    SelectionManager.Instance.ClickSelect(clickedUnit);
+                    }
+                    else if (Input.GetKey(KeyCode.LeftControl))
+                    {
+                        SelectionManager.Instance.ControlClickSelect(clickedUnit);
+                    }
+                    else
+                    {
+                        SelectionManager.Instance.ClickSelect(clickedUnit);
+                    }
                 }
             }
             else 
@@ -74,7 +74,7 @@ public class Selector : MonoBehaviour
                 selectionBox.gameObject.SetActive(true);
                 Rect selectionRect = new Rect();
                 ResizeSelectionBox(startToEnd, ref selectionRect);
-                foreach (Unit unit in SelectionManager.Instance.selectableUnits)
+                foreach (Unit unit in selectable.ToList())
                 {
                     if (selectionRect.Contains(Camera.main.WorldToScreenPoint(unit.gameObject.transform.position)))
                     {

@@ -7,11 +7,6 @@ public class CameraMovement : MonoBehaviour
     [SerializeField, Min(0.0001f)]  float maxCameraSpeed;
     [SerializeField, Range(0.0f, 0.4f)] float screenEdgeFraction;
     [SerializeField] Collider cameraBoundingBox;
-    [HideInInspector] public bool mouseOverUI;
-    private void Start()
-    {
-        mouseOverUI = false;
-    }
 
     void Update()
     {
@@ -28,7 +23,7 @@ public class CameraMovement : MonoBehaviour
         }
 
         //Mouse movement
-        else if(!mouseOverUI)
+        else if(!UIManager.Instance.getMouseOver())
         {
             Vector3 mousePos = Input.mousePosition;
             Vector2 screenResolution = new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight);

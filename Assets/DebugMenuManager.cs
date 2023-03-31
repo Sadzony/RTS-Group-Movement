@@ -21,7 +21,8 @@ public class DebugMenuManager : MonoBehaviour
         if (selectorScript.enabled == true)
         {
             selectorScript.enabled = false;
-            foreach (Unit unit in SelectionManager.Instance.selectedUnits.ToList())
+            List<Unit> selected = SelectionManager.Instance.GetSelected().ToList();
+            foreach (Unit unit in selected)
             {
                 unit.Die();
             }
