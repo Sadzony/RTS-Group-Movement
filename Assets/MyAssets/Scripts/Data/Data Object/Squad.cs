@@ -2,40 +2,71 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 [System.Serializable]
-public class Squad
+public class UnitList
 {
-    [SerializeField] protected List<Unit> _squadMembers = new List<Unit>();
+    [SerializeField] private List<Unit> list;
+    private HashSet<Unit> set;
 
-    protected HashSet<Unit> squadMembers = new HashSet<Unit>();
-
+    public UnitList()
+    {
+        list = new List<Unit>();
+        set = new HashSet<Unit>();
+    }
+    public UnitList(UnitList copy) 
+    {
+        list = new List<Unit>(copy.list);
+        set = new HashSet<Unit>(copy.set);
+    }
+    ~UnitList()
+    {
+        list.Clear();
+        set.Clear();
+    }
     public int Count()
     {
-        return squadMembers.Count;
+        return list.Count;
     }
-    public bool isPartOfSquad(Unit unit)
+    public bool isMember(Unit unit)
     {
-        return squadMembers.Contains(unit);
+        return set.Contains(unit);
     }
-
-    public void SetSquad(List<Unit> members)
+    public void SetMembers(HashSet<Unit> members)
     {
-        squadMembers.Clear();
-        _squadMembers.Clear();
-        foreach (Unit unit in members)
+        list.Clear();
+        set.Clear();
+        set = new HashSet<Unit>(members);
+        list = new List<Unit>(members);
+    }
+    public HashSet<Unit> GetMembers() { return new HashSet<Unit>(set); }
+    public void Add(Unit unit)
+    {
+        if (set.Add(unit))
+            list.Add(unit);
+    }
+    public bool Remove(Unit unit)
+    {
+        if (set.Remove(unit))
         {
-            squadMembers.Add(unit);
-            _squadMembers.Add(unit);
+            list.Remove(unit);
+            return true;
         }
+        return false;
     }
-    public void AddUnit(Unit unit)
+}
+
+[System.Serializable]
+public class Squad : UnitList
+{
+    private Command command;
+
+    public Squad() : base()
     {
-        if (squadMembers.Add(unit))
-            _squadMembers.Add(unit);
+        command = new Command();
     }
-    public void RemoveUnit(Unit unit)
+    public Squad(Squad copy) : base(copy)
     {
-        if(squadMembers.Remove(unit))
-            _squadMembers.Remove(unit);
+        copy.command = command;
     }
 }

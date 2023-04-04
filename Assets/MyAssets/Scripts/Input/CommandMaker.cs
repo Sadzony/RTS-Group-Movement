@@ -20,7 +20,7 @@ public class CommandMaker : MonoBehaviour
                 command.target = hit.point;
                 command.type = CommandType.Movement;
 
-                List<Unit> selectedUnits = SelectionManager.Instance.GetSelected().ToList();
+                HashSet<Unit> selectedUnits = SelectionManager.Instance.GetSelected();
 
                 if (selectedUnits.Count > 0)
                 {

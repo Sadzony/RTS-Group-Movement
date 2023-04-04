@@ -381,6 +381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59b9c1e703b9c1c438af38d464bde201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  log: []
   activeSquads: []
 --- !u!850595691 &1137116011
 LightingSettings:
@@ -870,6 +871,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2389213962836886864, guid: 937ed8563626167479306874e37f1195, type: 3}
+      propertyPath: commandLog.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2389213962836886864, guid: 937ed8563626167479306874e37f1195, type: 3}
+      propertyPath: commandLog.Array.data[0].list.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7153837635651172131, guid: 937ed8563626167479306874e37f1195, type: 3}
       propertyPath: m_RootOrder
       value: 0
