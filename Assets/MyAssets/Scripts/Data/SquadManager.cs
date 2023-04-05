@@ -26,12 +26,6 @@ public class SquadManager : MonoBehaviour
 
     //Member variables
 
-
-    //Log used for squad selection mechanic
-    private LinkedList<Squad> log = new LinkedList<Squad>();
-    //Serialized copy of the log
-    [SerializeField] List<Squad> _log = new List<Squad>();
-
     //Debug List used to output the active squads to screen
     private HashSet<Squad> activeSquads = new HashSet<Squad>();
     //Serialized copy of the above list
@@ -41,56 +35,46 @@ public class SquadManager : MonoBehaviour
     private Dictionary<Command, Squad> squads = new Dictionary<Command, Squad>();
 
     //Functions
-    public void AddSquad(Command command, HashSet<Unit> squadMembers)
+    public void AddSquad(Command command)
     {
-        Squad squad = new Squad(squadMembers, command);
-
-        //Create dictionary entry
-        if (!squads.ContainsKey(command))
+        _activeSquads.Clear();
+        Squad squad = new Squad();
+        if(!squads.ContainsKey(command))
         {
             squads.Add(command, squad);
             activeSquads.Add(squad);
-
-            //Check if the squads' in the log unit hash set matches the newly added squad's
-            bool logMatch = false;
-            foreach (Squad members in log)
-            {
-                HashSet<Unit> loggedMembers = members.GetMembers();
-                if (squadMembers.SetEquals(loggedMembers))
-                {
-                    //If it does, bring the new squad to the top of the log and remove the previous log entry
-                    log.Remove(members);
-                    log.AddFirst(squad);
-                    logMatch = true;
-                    break;
-                }
-            }
-            //If the new entry did not match the log, then log gets a new entry
-            if (!logMatch)
-            {
-                log.AddFirst(squad);
-            }
         }
-        //Update serialized properties
-        _log = new List<Squad>(log);
         _activeSquads = new List<Squad>(activeSquads);
     }
+
+    //A command is cancelled or emptied
+    public void RemoveSquad(Command command)
+    {
+        if (squads.TryGetValue(command, out Squad squad))
+        {
+            _activeSquads.Clear();
+            squad.Clear();
+            activeSquads.Remove(squad);
+            _activeSquads = new List<Squad>(activeSquads);
+            squads.Remove(command);
+        }
+    }
+
+    //Unit starts a command
+    public void AddUnitToSquad(Command command, Unit unit)
+    {
+        if(squads.TryGetValue(command, out Squad squad))
+        {
+            squad.Add(unit);
+        }
+    }
+    //Unit replaces an old command with a new one
     public void RemoveUnitFromSquad(Command command, Unit unit) 
     {
-        Squad foundSquad;
-        if(squads.TryGetValue(command, out foundSquad))
+        //Remove unit from squad
+        if (squads.TryGetValue(command, out Squad squad))
         {
-            foundSquad.Remove(unit);
-            //If the squad has become empty, remove it from dictionary
-            if(foundSquad.Count() <= 0)
-            {
-                squads.Remove(command);
-                activeSquads.Remove(foundSquad);
-                log.Remove(foundSquad);
-            }
+            squad.Remove(unit);
         }
-        //Update serialized properties
-        _log = new List<Squad>(log);
-        _activeSquads = new List<Squad>(activeSquads);
     }
 }

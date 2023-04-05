@@ -24,6 +24,9 @@ public class CommandMaker : MonoBehaviour
 
                 if (selectedUnits.Count > 0)
                 {
+                    SquadManager.Instance.AddSquad(command);
+                    CommandManager.Instance.UpdateCommandMap(command, selectedUnits);
+
                     if (Input.GetKey(KeyCode.LeftShift))
                     {
                         //Get selected units
@@ -42,7 +45,6 @@ public class CommandMaker : MonoBehaviour
                             CommandManager.Instance.CommandUnit(unit, command);
                         }
                     }
-                    SquadManager.Instance.AddSquad(command, selectedUnits);
                 }
             }
         }

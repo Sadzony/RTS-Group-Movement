@@ -1508,12 +1508,12 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 1
-  m_TileSize: 16
+  m_OverrideTileSize: 0
+  m_TileSize: 256
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.083333336
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: d51e18cad55da0343aa9c458f407f831, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 8f97019db8e52a54ebe6b12966d24c7d, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &1482339318694009602
 GameObject:
@@ -2990,7 +2990,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5031
+  m_VersionIndex: 5037
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []

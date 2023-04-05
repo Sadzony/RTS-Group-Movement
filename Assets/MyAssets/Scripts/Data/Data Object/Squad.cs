@@ -29,9 +29,14 @@ public class UnitList
         list.Clear();
         set.Clear();
     }
+    public virtual void Clear()
+    {
+        list.Clear();
+        set.Clear();
+    }
     public int Count()
     {
-        return list.Count;
+        return set.Count;
     }
     public bool isMember(Unit unit)
     {
@@ -47,16 +52,19 @@ public class UnitList
     public HashSet<Unit> GetMembers() { return new HashSet<Unit>(set); }
     public void Add(Unit unit)
     {
-        if (set.Add(unit))
-            list.Add(unit);
+        list.Clear();
+        set.Add(unit);
+        list = new List<Unit>(set);
     }
     public bool Remove(Unit unit)
     {
+        list.Clear();
         if (set.Remove(unit))
         {
-            list.Remove(unit);
+            list = new List<Unit>(set);
             return true;
         }
+        list = new List<Unit>(set);
         return false;
     }
 }
@@ -69,6 +77,12 @@ public class Squad : UnitList
     public void SetCommand(Command p_command)
     {
         command = p_command;
+    }
+
+    public override void Clear()
+    {
+        base.Clear();
+
     }
 
     public Squad() : base()
