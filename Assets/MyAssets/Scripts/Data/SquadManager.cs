@@ -38,7 +38,7 @@ public class SquadManager : MonoBehaviour
     public void AddSquad(Command command)
     {
         _activeSquads.Clear();
-        Squad squad = new Squad();
+        Squad squad = new Squad(command);
         if(!squads.ContainsKey(command))
         {
             squads.Add(command, squad);

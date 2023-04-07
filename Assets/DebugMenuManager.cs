@@ -40,4 +40,16 @@ public class DebugMenuManager : MonoBehaviour
         unitSpawnerScript.enabled = false;
         selectorScript.enabled = true;
     }
+    public void CompleteSelected()
+    {
+        if (selectorScript.enabled == true)
+        {
+            List<Unit> selected = SelectionManager.Instance.GetSelected().ToList();
+            foreach(Unit unit in selected)
+            {
+                unit.CompleteCommand();
+            }
+        }
+            
+    }
 }

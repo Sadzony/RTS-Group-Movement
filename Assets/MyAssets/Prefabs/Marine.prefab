@@ -120,7 +120,7 @@ Transform:
   - {fileID: 5566579245055204472}
   - {fileID: 1419710022950954921}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &3351042376436370087
 NavMeshAgent:
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1679789010811640959}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ded63698571b4654092aab7ac7d40a07, type: 3}
   m_Name: 
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectionCollider: {fileID: 0}
   isSelected: 0
-  keptInSquad: 0
+  standby: 1
 --- !u!1 &3181606355702518667
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,17 +13,17 @@ public class CommandMaker : MonoBehaviour
             //Find the clicked location
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            //If location is valid, check selection and make command
             if (Physics.Raycast(ray, out hit))
             {
-                //If location is valid, make a command with it
-                Command command = new Command();
-                command.target = hit.point;
-                command.type = CommandType.Movement;
-
                 HashSet<Unit> selectedUnits = SelectionManager.Instance.GetSelected();
 
                 if (selectedUnits.Count > 0)
                 {
+                    Command command = new Command(selectedUnits);
+                    command.target = hit.point;
+                    command.type = CommandType.Movement;
+
                     SquadManager.Instance.AddSquad(command);
                     CommandManager.Instance.UpdateCommandMap(command, selectedUnits);
 

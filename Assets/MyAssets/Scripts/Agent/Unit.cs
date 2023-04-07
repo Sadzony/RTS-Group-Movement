@@ -8,8 +8,7 @@ public class Unit : MonoBehaviour
     [HideInInspector] public Collider selectionCollider;
     [HideInInspector] public bool isSelected;
 
-    //Checks whether the unit was kept in the previous squad after finishing a command
-    [HideInInspector] public bool keptInSquad = false;
+    [HideInInspector] public bool standby = true;
 
     private GameObject selectionSprite;
 
@@ -50,35 +49,37 @@ public class Unit : MonoBehaviour
         isSelected = false;
         selectionSprite.SetActive(false);
     }
+    public void OnCommandCancel()
+    {
+        standby = true;
+    }
     public void ReceiveCommand()
     {
-        if(keptInSquad)
-        {
-            CommandManager.Instance.PopCommand(this);
-            keptInSquad = false;
-        }
 #nullable enable
-        if(CommandManager.Instance.GetCommand(this, out Command? command))
+        //try getting the next command. If successful, receive it. If the unit is not in standby, it's ignored
+        if (standby == true)
         {
-            SquadManager.Instance.AddUnitToSquad(command, this);
+            CommandManager.Instance.OnCommandReceived(this);
+            if (CommandManager.Instance.GetCurrentCommand(this, out Command? command))
+            {
+                standby = false;
+            }
         }
 #nullable disable
     }
     public void CompleteCommand()
     {
-        Queue<Command> commandQueue = CommandManager.Instance.GetCommandQueue(this);
+        //Complete the command
+        CommandManager.Instance.OnCommandCompleted(this);
+        //Since the command is completed, the unit is waiting for the next one, so enter standby mode.
+        standby = true;
 
-        //If this is the last command, keep the squad structure and flag to remove on next receive
-        if(commandQueue.Count == 1)
-        {
-            keptInSquad = true;
-        }
         //If there are more commands, receive the next one
-        else
+#nullable enable
+        if (CommandManager.Instance.NextCommandAvailable(this))
         {
-            keptInSquad = false;
-            CommandManager.Instance.PopCommand(this);
             ReceiveCommand();
         }
+#nullable disable
     }
 }

@@ -54,6 +54,7 @@ public class CommandManager : MonoBehaviour
         if(unitQueueMap.ContainsKey(unit))
         {
             CancelCommands(unit);
+
             unitQueueMap.Remove(unit);
         }
             
@@ -70,7 +71,7 @@ public class CommandManager : MonoBehaviour
 
 #nullable enable
     //Returns true and a command if one exists, otherwise null and false
-    public bool GetCommand(Unit unit, out Command? output)
+    public bool GetCurrentCommand(Unit unit, out Command? output)
     {
         if(unitQueueMap.TryGetValue(unit, out Queue<Command> commandQueue))
         {
@@ -83,23 +84,50 @@ public class CommandManager : MonoBehaviour
         output = null;
         return false;
     }
-    public void PopCommand(Unit unit)
+    //Checks if there's a command available after this one
+    public bool NextCommandAvailable(Unit unit)
     {
-        if(unitQueueMap.TryGetValue(unit, out Queue<Command> commandQueue))
+        if (unitQueueMap.TryGetValue(unit, out Queue<Command> commandQueue))
         {
-            if(commandQueue.Count != 0)
+            if(commandQueue.Count > 1 && commandQueue.Peek().completionMap.TryGetValue(unit, out bool val) && val == true)
             {
-                Command removedCommand = commandQueue.Dequeue();
-                SquadManager.Instance.RemoveUnitFromSquad(removedCommand, unit);
-                RemoveUnitFromCommandMap(removedCommand, unit);
+                return true;
             }
         }
+        return false;
+    }
+    public void OnCommandReceived(Unit unit)
+    {
+        if (unitQueueMap.TryGetValue(unit, out Queue<Command> commandQueue))
+        {
+            //If the top command is completed, pop it
+            if (commandQueue.Peek().completionMap.TryGetValue(unit, out bool val) && val == true)
+            {
+                Command removedCommand = commandQueue.Dequeue();
+                RemoveUnitFromCommandMap(removedCommand, unit);
+            }
+            SquadManager.Instance.AddUnitToSquad(commandQueue.Peek(), unit);
+        }
+    }
+    public void OnCommandCompleted(Unit unit)
+    {
+        if (unitQueueMap.TryGetValue(unit, out Queue<Command> commandQueue))
+        {
+            Command command = commandQueue.Peek();
+            SquadManager.Instance.RemoveUnitFromSquad(command, unit);
+
+            //Flag the command as completed for that unit
+            if (command.completionMap.TryGetValue(unit, out bool val))
+                command.completionMap[unit] = true;
+        }
+
     }
 #nullable disable
     public void CommandUnit(Unit unit, Command command)
     {
         if(unitQueueMap.ContainsKey(unit))
         {
+            //Cancel the unit's current commands
             if (unitQueueMap[unit].Count != 0) 
             {
                 CancelCommands(unit);
@@ -118,7 +146,7 @@ public class CommandManager : MonoBehaviour
             unitQueueMap[unit].Enqueue(command);
         }
         //If unit is awaiting an order, start the command immediately
-        if (unit.keptInSquad)
+        if (unit.standby)
             unit.ReceiveCommand();
     }
 
@@ -127,6 +155,7 @@ public class CommandManager : MonoBehaviour
     {
         if (unitQueueMap.ContainsKey(unit))
         {
+            unit.OnCommandCancel();
             //Update squad manager for each cancelled command
             foreach (Command queuedCommand in unitQueueMap[unit])
             {
@@ -134,6 +163,7 @@ public class CommandManager : MonoBehaviour
                 RemoveUnitFromCommandMap(queuedCommand, unit);
             }
         }
+        
     }
 
     public void UpdateCommandMap(Command command, HashSet<Unit> units)
@@ -175,6 +205,7 @@ public class CommandManager : MonoBehaviour
         {
             _log.Clear();
             unitSet.Remove(unit);
+            //check the number of units still performing the command
             if (commandMap[command].Count() <= 0)
             {
                 log.Remove(unitSet);

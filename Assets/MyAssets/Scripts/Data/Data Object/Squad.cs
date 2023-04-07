@@ -82,20 +82,14 @@ public class Squad : UnitList
     public override void Clear()
     {
         base.Clear();
-
-    }
-
-    public Squad() : base()
-    {
-        command = new Command();
     }
     public Squad(Squad copy) : base(copy)
     {
         copy.command = command;
     }
-    public Squad(HashSet<Unit> p_set) : base(p_set)
+    public Squad(Command p_command) : base()
     {
-        command = new Command();
+        command = p_command;
     }
     public Squad(HashSet<Unit> p_set, Command p_command) : base(p_set)
     {
