@@ -41,11 +41,13 @@ public class SelectionManager : MonoBehaviour
     {
         selectableUnits.Add(unit); 
         CommandManager.Instance.AddUnit(unit);
+        GroupManager.Instance.AddUnitEntry(unit);
     }
     public void RemoveFromSelectable(Unit unit) 
     {
         selectableUnits.Remove(unit);
         CommandManager.Instance.RemoveUnit(unit);
+        GroupManager.Instance.RemoveUnitEntry(unit);
     }
 
     public void Select(Unit unit)

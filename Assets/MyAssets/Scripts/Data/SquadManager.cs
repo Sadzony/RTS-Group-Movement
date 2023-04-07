@@ -42,6 +42,7 @@ public class SquadManager : MonoBehaviour
         if(!squads.ContainsKey(command))
         {
             squads.Add(command, squad);
+            GroupManager.Instance.AddSquadronEntry(squad);
             activeSquads.Add(squad);
         }
         _activeSquads = new List<Squad>(activeSquads);
@@ -55,6 +56,7 @@ public class SquadManager : MonoBehaviour
             _activeSquads.Clear();
             squad.Clear();
             activeSquads.Remove(squad);
+            GroupManager.Instance.RemoveSquadronEntry(squad);
             _activeSquads = new List<Squad>(activeSquads);
             squads.Remove(command);
         }
