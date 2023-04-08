@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2389213962836886864}
   - component: {fileID: 7091271785004941320}
   - component: {fileID: 5052631150232020481}
+  - component: {fileID: 8549020523252811404}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -33,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9137391421896054900
 MonoBehaviour:
@@ -59,6 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 492ab95a4bacd7846bb3354870c279c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _log: []
 --- !u!114 &7091271785004941320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,5 +85,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59b9c1e703b9c1c438af38d464bde201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _log: []
   _activeSquads: []
+--- !u!114 &8549020523252811404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8018300818158221879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48262c454f50e4c4bb517bd36b2e7ce0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

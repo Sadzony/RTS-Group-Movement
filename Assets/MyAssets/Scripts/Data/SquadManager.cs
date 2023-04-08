@@ -68,6 +68,7 @@ public class SquadManager : MonoBehaviour
         if(squads.TryGetValue(command, out Squad squad))
         {
             squad.Add(unit);
+            GroupManager.Instance.ManageUnit(unit);
         }
     }
     //Unit replaces an old command with a new one
@@ -77,6 +78,7 @@ public class SquadManager : MonoBehaviour
         if (squads.TryGetValue(command, out Squad squad))
         {
             squad.Remove(unit);
+            GroupManager.Instance.UnmanageUnit(unit);
         }
     }
 }

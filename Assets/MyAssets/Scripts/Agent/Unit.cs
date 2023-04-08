@@ -10,6 +10,8 @@ public class Unit : MonoBehaviour
 
     [HideInInspector] public bool standby = true;
 
+    public float neighbourLoSArc;
+
     private GameObject selectionSprite;
 
     // Start is called before the first frame update

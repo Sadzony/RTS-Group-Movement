@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GroupManager : MonoBehaviour
@@ -28,33 +29,28 @@ public class GroupManager : MonoBehaviour
     //Maps a squad to a list of groups. Unit references come from squad
     private Dictionary<Squad, HashSet<Group>> squadronMap = new Dictionary<Squad, HashSet<Group>>();
 
-    //Maps units to its neighbours
-    private Dictionary<Unit, HashSet<Unit>> neighbourMap = new Dictionary<Unit, HashSet<Unit>>();
+    //Maps a unit to a group that owns it
+    private Dictionary<Unit, Group> groupOwnershipMap = new Dictionary<Unit, Group>();
 
     //Functions
 
-    //Creates a neighbour map entry when the unit is created
-    public void AddUnitEntry(Unit unit)
+    //Whenever a unit joins a particular squad, it begins being managed.
+    public void ManageUnit(Unit unit)
     {
-        if(!neighbourMap.ContainsKey(unit))
+        if(!groupOwnershipMap.ContainsKey(unit))
         {
-            neighbourMap.Add(unit, new HashSet<Unit>());
+            Group newGroup = new Group();
+            newGroup.JoinGroup(unit);
+            groupOwnershipMap.Add(unit, newGroup);
         }
     }
-    //Called when unit dies
-    public void RemoveUnitEntry(Unit unit)
+    //Whenever a unit leaves a particular squad, its also leaves the group manager
+    public void UnmanageUnit(Unit unit)
     {
-        //Remove unit from neighbour map of every neighbouring unit
-        if(neighbourMap.TryGetValue(unit, out HashSet<Unit> neighbors))
+        if(groupOwnershipMap.TryGetValue(unit, out Group group))
         {
-            foreach(Unit neighbor in neighbors)
-            {
-                if(neighbourMap.TryGetValue(neighbor, out HashSet<Unit> units))
-                {
-                    units.Remove(unit);
-                }
-            }
-            neighbourMap.Remove(unit);
+            group.LeaveGroup(unit);
+            groupOwnershipMap.Remove(unit);
         }
     }
 
@@ -79,30 +75,173 @@ public class GroupManager : MonoBehaviour
     }
     public void Update()
     {
-        //Iterate every squad and find the neighbours
+        //Iterate every squad and find the groups within it
         foreach (KeyValuePair<Squad, HashSet<Group>> squadronGroups in squadronMap)
         {
-            //Get the squad's units
-            HashSet<Unit> squadUnits = squadronGroups.Key.GetMembers();
-            foreach (Unit unit in squadUnits)
+            //Update the groups for this squad
+            squadronMap[squadronGroups.Key] = CalculateGroups(squadronGroups.Key);
+        }
+    }
+
+    //Finds neighbouring units and creates group entries for them
+    private HashSet<Group> CalculateGroups(Squad inputSquad)
+    {
+        //Get the squad's units
+        HashSet<Unit> squadUnits = inputSquad.GetMembers();
+
+        //Each unit keeps track of which units were already inspected
+        Dictionary<Unit, HashSet<Unit>> solvedUnitMap = new Dictionary<Unit, HashSet<Unit>>();
+
+        HashSet<Group> outputGroups = new HashSet<Group>();
+
+        //Iterate the unit list
+        foreach (Unit unit in squadUnits)
+        {
+            //Find the group for this unit
+            Group group = FindNeighbouringGroup(unit, inputSquad, ref solvedUnitMap);
+
+            outputGroups.Add(group);
+        }
+        return outputGroups;
+
+    }
+    //Finds the unit's neighbours and outputs the group that it belongs in
+    private Group FindNeighbouringGroup(Unit unit, Squad inputSquad, ref Dictionary<Unit, HashSet<Unit>> solvedUnitMap)
+    {
+        //Get squad's units
+        HashSet<Unit> squadUnits = inputSquad.GetMembers();
+
+        //This will update the neighbour set for this group
+        HashSet<Unit> neighbours = new HashSet<Unit>();
+
+        Group outputGroup = new Group();
+        bool neighbourFound = false;
+
+        //Try to check the unit's entry at the solvedUnits map
+        if(solvedUnitMap.TryGetValue(unit, out HashSet<Unit> solvedUnits))
+        {
+            foreach(Unit other in squadUnits)
             {
-                //Update neighbour map for that unit
-
-                //Check if unit exists in group set
-
-                //if not, join to a neighbouring group, or create a new one
+                //if the other unit doesn't exist in this unit's solution set, then their distances haven't been calculated yet
+                if(!solvedUnits.Contains(other))
+                {
+                    if (isGroup(unit, other))
+                    {
+                        //if match, find the group object for this and other neighbour. Since they're neighbours, they will share a group
+                        Group neighbouringGroup = FindGroup(unit, other);
+                        neighbourFound = true;
+                        outputGroup = neighbouringGroup;
+                        //Add the neighbouring unit to this unit's neighbour map
+                        if (neighbouringGroup.neighbourMap.TryGetValue(unit, out HashSet<Unit> thisNeighbourMap))
+                            thisNeighbourMap.Add(other);
+                        //Add this unit to other units neighbour map
+                        if (neighbouringGroup.neighbourMap.TryGetValue(other, out HashSet<Unit> otherNeighbourMap))
+                            otherNeighbourMap.Add(unit);
+                    }
+                    else
+                    {
+                        //Try remove the neighbouring unit from this unit's neighbour map
+                        if (groupOwnershipMap[unit].neighbourMap.TryGetValue(unit, out HashSet<Unit> thisNeighbourMap))
+                            thisNeighbourMap.Remove(other);
+                        //Try remove this unit to other units neighbour map
+                        if (groupOwnershipMap[other].neighbourMap.TryGetValue(other, out HashSet<Unit> otherNeighbourMap))
+                            otherNeighbourMap.Remove(unit);
+                    }
+                    //This unit has been solved for other neighbour
+                    solvedUnitMap[other].Add(unit);
+                    //other neighbour has been solved for this unit
+                    solvedUnitMap[unit].Add(other);
+                }
             }
-
         }
 
-        //Neighbour map is now made
-
-        //Iterate every squad and recalculate groups
-        foreach (KeyValuePair<Squad, HashSet<Group>> squadronGroups in squadronMap)
+        //If the unit doesn't exist exist in the solution set,
+        //then this is the first unit and must be tested with every other unit
+        else
         {
-            //Iterate the set of groups
-
-            //Check if any groups combine, based on the list of neighbours
+            foreach(Unit other in squadUnits)
+            {
+                if(isGroup(unit, other))
+                {
+                    //if match, find the group object for this and other neighbour. Since they're neighbours, they will share a group
+                    Group neighbouringGroup = FindGroup(unit, other);
+                    neighbourFound = true;
+                    outputGroup = neighbouringGroup;
+                    //Add the neighbouring unit to this unit's neighbour map
+                    if (neighbouringGroup.neighbourMap.TryGetValue(unit, out HashSet<Unit> thisNeighbourMap))
+                        thisNeighbourMap.Add(other);
+                    //Add this unit to other units neighbour map
+                    if (neighbouringGroup.neighbourMap.TryGetValue(other, out HashSet<Unit> otherNeighbourMap))
+                        otherNeighbourMap.Add(unit);
+                }
+                else
+                {
+                    //Try remove the neighbouring unit from this unit's neighbour map
+                    if (groupOwnershipMap[unit].neighbourMap.TryGetValue(unit, out HashSet<Unit> thisNeighbourMap))
+                        thisNeighbourMap.Remove(other);
+                    //Try remove this unit to other units neighbour map
+                    if (groupOwnershipMap[other].neighbourMap.TryGetValue(other, out HashSet<Unit> otherNeighbourMap))
+                        otherNeighbourMap.Remove(unit);
+                }
+                //This unit has been solved for other neighbour
+                solvedUnitMap[other].Add(unit);
+                //other neighbour has been solved for this unit
+                solvedUnitMap[unit].Add(other);
+            }
         }
+        if(!neighbourFound)
+        {
+            groupOwnershipMap[unit] = outputGroup;
+            outputGroup.JoinGroup(unit);
+        }
+        return groupOwnershipMap[unit];
+    }
+
+    //Called each time a neighbour is found. Returns the group that it belongs in
+    private Group FindGroup(Unit unit, Unit neighbour)
+    {
+        //Check the ownership dictionary for this and the other neighbour
+        bool unitGroupFound = groupOwnershipMap.TryGetValue(unit, out Group unitGroup);
+        bool neighbourGroupFound = groupOwnershipMap.TryGetValue(neighbour, out Group neighbourGroup);
+        
+        //If both have groups
+        if(unitGroupFound && neighbourGroupFound)
+        {
+            //If the groups are different, the groups combine
+            if (unitGroup != neighbourGroup)
+            {
+                unitGroup.CombineGroups(neighbourGroup);
+                groupOwnershipMap[neighbour] = unitGroup;
+            }
+            //if the groups match, there are no changes
+            return unitGroup;
+        }
+        //If neighbour doesn't have a group, but this unit does
+        else if(unitGroupFound && !neighbourGroupFound)
+        {
+            groupOwnershipMap[neighbour] = unitGroup;
+            return unitGroup;
+        }
+        //If this unit doesn't have a group, but neighbour does
+        else if(!unitGroupFound && neighbourGroupFound)
+        {
+            groupOwnershipMap[unit] = neighbourGroup;
+            return neighbourGroup;
+        }
+        //If neither have groups
+        else
+        {
+            //Make a new group and add both units
+            Group newGroup = new Group();
+            groupOwnershipMap[unit] = newGroup;
+            groupOwnershipMap[neighbour] = newGroup;
+            return newGroup;
+        }
+
+    }
+    //Finds whether 2 members are in distance to be in the same group
+    private bool isGroup(Unit unit1, Unit unit2)
+    {
+        return false;
     }
 }

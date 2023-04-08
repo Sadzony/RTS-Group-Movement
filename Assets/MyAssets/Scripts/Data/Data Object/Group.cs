@@ -7,16 +7,38 @@ public class Group : MonoBehaviour
     private Squad owner;
     private HashSet<Unit> members = new HashSet<Unit>();
 
+    //Maps units to its neighbours
+    public Dictionary<Unit, HashSet<Unit>> neighbourMap = new Dictionary<Unit, HashSet<Unit>>();
     public void JoinGroup(Unit unit)
     {
         members.Add(unit);
-
-        //Add group manager dictionary entry, at owner squad
+        if(!neighbourMap.ContainsKey(unit))
+        {
+            neighbourMap.Add(unit, new HashSet<Unit>());
+        }
     }
     public void LeaveGroup(Unit unit)
     {
         members.Remove(unit);
-        //Remove group manager dictionary entry, at owner squad
+
+        //Remove neighbourmap entries from its neighbours
+        if(neighbourMap.TryGetValue(unit, out HashSet<Unit> neighbours))
+        {
+            foreach(Unit neighbour in neighbours)
+            {
+                if(neighbourMap.TryGetValue(neighbour, out HashSet<Unit> otherNeighbours))
+                {
+                    otherNeighbours.Remove(unit);
+                }
+            }
+        }
+        neighbourMap.Remove(unit);
+    }
+
+    //Takes an other group and combines it into this one
+    public Group CombineGroups(Group other)
+    {
+        return this;
     }
 
 
