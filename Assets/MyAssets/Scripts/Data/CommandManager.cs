@@ -111,7 +111,8 @@ public class CommandManager : MonoBehaviour
     }
     public void OnCommandCompleted(Unit unit)
     {
-        if (unitQueueMap.TryGetValue(unit, out Queue<Command> commandQueue))
+        //Flags the command at the top of the queue as completed, making the unit pop it when it receives a new one
+        if (unitQueueMap.TryGetValue(unit, out Queue<Command> commandQueue) && commandQueue.Count > 0)
         {
             Command command = commandQueue.Peek();
             SquadManager.Instance.RemoveUnitFromSquad(command, unit);

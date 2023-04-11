@@ -1204,6 +1204,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 8549020523252811404, guid: 937ed8563626167479306874e37f1195, type: 3}
+      propertyPath: neighbourDistance
+      value: 0.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

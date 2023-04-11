@@ -7,6 +7,7 @@ public class Unit : MonoBehaviour
 {
     [HideInInspector] public Collider selectionCollider;
     [HideInInspector] public bool isSelected;
+    [HideInInspector] public NavMeshAgent agent;
 
     [HideInInspector] public bool standby = true;
 
@@ -18,6 +19,7 @@ public class Unit : MonoBehaviour
     void Start()
     {
         SelectionManager.Instance.AddToSelectable(this);
+        agent = GetComponent<NavMeshAgent>();
         selectionSprite = this.gameObject.transform.Find("SelectionSprite").gameObject;
         selectionCollider = this.gameObject.transform.Find("SelectionCollider").GetComponent<Collider>();
     }
