@@ -172,7 +172,6 @@ public class CommandManager : MonoBehaviour
         //Make a dictionary entry at command
         if(!commandMap.ContainsKey(command))
         {
-            _log.Clear();
             UnitList unitSet = new UnitList(units);
             commandMap.Add(command, unitSet);
 
@@ -195,7 +194,7 @@ public class CommandManager : MonoBehaviour
             {
                 log.AddFirst(unitSet);
             }
-            _log = new List<UnitList>(log);
+            OnValidate();
 
         }
     }
@@ -204,7 +203,6 @@ public class CommandManager : MonoBehaviour
         //Remove unit from command map. If empty, remove the entry and the associated squad
         if(commandMap.TryGetValue(command, out UnitList unitSet))
         {
-            _log.Clear();
             unitSet.Remove(unit);
             //check the number of units still performing the command
             if (commandMap[command].Count() <= 0)
@@ -213,19 +211,22 @@ public class CommandManager : MonoBehaviour
                 commandMap.Remove(command);
                 SquadManager.Instance.RemoveSquad(command);
             }
-            _log = new List<UnitList>(log);
+            OnValidate();
         }
     }
     public void RemoveFromCommandMap(Command command)
     {
         if (commandMap.TryGetValue(command, out UnitList unitSet))
         {
-            _log.Clear();
             log.Remove(unitSet);
             commandMap.Remove(command);
             SquadManager.Instance.RemoveSquad(command);
-            _log = new List<UnitList>(log);
+            OnValidate();
         }
+    }
+    public void OnValidate()
+    {
+        _log = new List<UnitList>(log);
     }
 
 }

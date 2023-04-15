@@ -574,7 +574,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-11854
+  m_Name: pb_Mesh-10948
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -1206,7 +1206,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8549020523252811404, guid: 937ed8563626167479306874e37f1195, type: 3}
       propertyPath: neighbourDistance
-      value: 0.7
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549020523252811404, guid: 937ed8563626167479306874e37f1195, type: 3}
+      propertyPath: activeGroups.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549020523252811404, guid: 937ed8563626167479306874e37f1195, type: 3}
+      propertyPath: neighbourSquaredDistance
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1282,6 +1290,46 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 212668146, guid: f0597b4daa721c34ca3b0ccac725fcc9, type: 3}
+      propertyPath: m_GenerateLinks
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 212668146, guid: f0597b4daa721c34ca3b0ccac725fcc9, type: 3}
+      propertyPath: m_OverrideGenerateLinks
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 625802369, guid: f0597b4daa721c34ca3b0ccac725fcc9, type: 3}
+      propertyPath: m_GenerateLinks
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 625802369, guid: f0597b4daa721c34ca3b0ccac725fcc9, type: 3}
+      propertyPath: m_OverrideGenerateLinks
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 650427385, guid: f0597b4daa721c34ca3b0ccac725fcc9, type: 3}
+      propertyPath: m_TileSize
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 650427385, guid: f0597b4daa721c34ca3b0ccac725fcc9, type: 3}
+      propertyPath: m_VoxelSize
+      value: 0.083333336
+      objectReference: {fileID: 0}
+    - target: {fileID: 650427385, guid: f0597b4daa721c34ca3b0ccac725fcc9, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: ae375560b9ac4c0478b2c90b4fddd5bb, type: 2}
+    - target: {fileID: 650427385, guid: f0597b4daa721c34ca3b0ccac725fcc9, type: 3}
+      propertyPath: m_MinRegionArea
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 650427385, guid: f0597b4daa721c34ca3b0ccac725fcc9, type: 3}
+      propertyPath: m_OverrideTileSize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 650427385, guid: f0597b4daa721c34ca3b0ccac725fcc9, type: 3}
+      propertyPath: m_OverrideVoxelSize
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1482339318676126899, guid: f0597b4daa721c34ca3b0ccac725fcc9, type: 3}
       propertyPath: m_RootOrder
       value: 2

@@ -28,6 +28,7 @@ public class SquadManager : MonoBehaviour
 
     //Debug List used to output the active squads to screen
     private HashSet<Squad> activeSquads = new HashSet<Squad>();
+    [SerializeField] private List<Squad> _activeSquads = new List<Squad>();
 
     //Dictionary mapping commands to squads
     private Dictionary<Command, Squad> squads = new Dictionary<Command, Squad>();
@@ -41,6 +42,7 @@ public class SquadManager : MonoBehaviour
             squads.Add(command, squad);
             GroupManager.Instance.AddSquadronEntry(squad);
             activeSquads.Add(squad);
+            OnValidate();
         }
     }
 
@@ -53,6 +55,7 @@ public class SquadManager : MonoBehaviour
             activeSquads.Remove(squad);
             GroupManager.Instance.RemoveSquadronEntry(squad);
             squads.Remove(command);
+            OnValidate();
         }
     }
 
@@ -62,7 +65,9 @@ public class SquadManager : MonoBehaviour
         if (squads.TryGetValue(command, out Squad squad))
         {
             squad.Add(unit);
+            OnValidate();
             GroupManager.Instance.ManageUnit(unit);
+
         }
     }
     //Unit replaces an old command with a new one
@@ -72,7 +77,12 @@ public class SquadManager : MonoBehaviour
         if (squads.TryGetValue(command, out Squad squad))
         {
             squad.Remove(unit);
+            OnValidate();
             GroupManager.Instance.UnmanageUnit(unit);
         }
+    }
+    private void OnValidate()
+    {
+        _activeSquads = new List<Squad>(activeSquads);
     }
 }

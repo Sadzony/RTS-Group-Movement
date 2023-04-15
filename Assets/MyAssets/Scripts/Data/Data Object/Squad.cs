@@ -26,8 +26,7 @@ public class UnitList
     }
     ~UnitList()
     {
-        list.Clear();
-        set.Clear();
+        Clear();
     }
     public virtual void Clear()
     {
@@ -72,13 +71,8 @@ public class UnitList
 [System.Serializable]
 public class Squad : UnitList
 {
-    private Command command;
-
-    public void SetCommand(Command p_command)
-    {
-        command = p_command;
-    }
-
+    public Command command;
+    public Waypoint goalNode;
     public override void Clear()
     {
         base.Clear();
@@ -86,13 +80,19 @@ public class Squad : UnitList
     public Squad(Squad copy) : base(copy)
     {
         copy.command = command;
+        if (copy.goalNode != null)
+            goalNode = copy.goalNode;
+        else
+            goalNode = new Waypoint(command.target);
     }
     public Squad(Command p_command) : base()
     {
         command = p_command;
+        goalNode = new Waypoint(command.target);
     }
     public Squad(HashSet<Unit> p_set, Command p_command) : base(p_set)
     {
         command = p_command;
+        goalNode = new Waypoint(command.target);
     }
 }

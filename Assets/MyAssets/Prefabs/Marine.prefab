@@ -94,7 +94,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4128642156189292097}
   - component: {fileID: 3351042376436370087}
-  - component: {fileID: 6194611461434008156}
   - component: {fileID: 2336055278590599159}
   m_Layer: 0
   m_Name: Marine
@@ -144,18 +143,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &6194611461434008156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1679789010811640959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ded63698571b4654092aab7ac7d40a07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2336055278590599159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +159,10 @@ MonoBehaviour:
   isSelected: 0
   agent: {fileID: 0}
   standby: 1
+  target_speed: 3
+  max_steering: 0
+  rotation_speed: 10
+  velocity: {x: 0, y: 0, z: 0}
   neighbourLoSArc: 0
 --- !u!1 &3181606355702518667
 GameObject:

@@ -27,9 +27,7 @@ public class GroupManager : MonoBehaviour
     }
 
 
-    //Member variables
-
-    [SerializeField] List<Group> activeGroups = new List<Group>();
+    //Member variabless
 
     [SerializeField, Range(1, 20)] private float neighbourDistance;
     private float neighbourSquaredDistance;
@@ -73,6 +71,16 @@ public class GroupManager : MonoBehaviour
             groupOwnershipMap[unit] = null;
         }
     }
+#nullable enable
+    public Group? GetGroup(Unit unit)
+    {
+        if(groupOwnershipMap.ContainsKey(unit))
+        {
+            return groupOwnershipMap[unit];
+        }
+        return null;
+    }
+#nullable disable
     public void RemoveGroup(Squad owner, Group group)
     {
         if(squadronMap.TryGetValue(owner, out HashSet<Group> squadGroups))
@@ -260,10 +268,19 @@ public class GroupManager : MonoBehaviour
             //If the groups are different, the groups combine
             if (unitGroup != neighbourGroup)
             {
-                unitGroup.CombineGroups(neighbourGroup);
-                groupOwnershipMap[neighbour] = unitGroup;
+                if (unitGroup.Count() >= neighbourGroup.Count())
+                {
+                    unitGroup.CombineGroups(neighbourGroup);
+                    return unitGroup;
+                }
+                    
+                else
+                {
+                    neighbourGroup.CombineGroups(unitGroup);
+                    return neighbourGroup;
+                }
             }
-            //if the groups match, there are no changes
+            //otherwise, no changes
             return unitGroup;
         }
         //If neighbour doesn't have a group, but this unit does
