@@ -28,7 +28,7 @@ public class CommandManager : MonoBehaviour
     //Member variables
 
     //Maps a particular unit reference to a queue of commands
-    protected Dictionary<Unit, Queue<Command>> unitQueueMap = new Dictionary<Unit, Queue<Command>>();
+    public Dictionary<Unit, Queue<Command>> unitQueueMap = new Dictionary<Unit, Queue<Command>>();
 
     //Keeps track of the units performing a command
     private Dictionary<Command, UnitList> commandMap = new Dictionary<Command, UnitList>();
@@ -104,9 +104,16 @@ public class CommandManager : MonoBehaviour
             if (commandQueue.Peek().completionMap.TryGetValue(unit, out bool val) && val == true)
             {
                 Command removedCommand = commandQueue.Dequeue();
+                SquadManager.Instance.RemoveUnitFromSquad(removedCommand, unit);
                 RemoveUnitFromCommandMap(removedCommand, unit);
             }
-            SquadManager.Instance.AddUnitToSquad(commandQueue.Peek(), unit);
+            Command next = commandQueue.Peek();
+            if (next.marker != null)
+            {
+                next.marker.startColor = new Color(0, 0.8f, 0, 1);
+                next.marker.endColor = new Color(0, 0.8f, 0, 1);
+            }
+            SquadManager.Instance.AddUnitToSquad(next, unit);
         }
     }
     public void OnCommandCompleted(Unit unit)
@@ -115,7 +122,11 @@ public class CommandManager : MonoBehaviour
         if (unitQueueMap.TryGetValue(unit, out Queue<Command> commandQueue) && commandQueue.Count > 0)
         {
             Command command = commandQueue.Peek();
-            SquadManager.Instance.RemoveUnitFromSquad(command, unit);
+            if(command.marker != null)
+            {
+                Destroy(command.marker.gameObject);
+                command.marker = null;
+            }
 
             //Flag the command as completed for that unit
             if (command.completionMap.TryGetValue(unit, out bool val))
@@ -160,6 +171,11 @@ public class CommandManager : MonoBehaviour
             //Update squad manager for each cancelled command
             foreach (Command queuedCommand in unitQueueMap[unit])
             {
+                if (queuedCommand.marker != null)
+                {
+                    Destroy(queuedCommand.marker.gameObject);
+                    queuedCommand.marker = null;
+                }
                 SquadManager.Instance.RemoveUnitFromSquad(queuedCommand, unit);
                 RemoveUnitFromCommandMap(queuedCommand, unit);
             }
@@ -226,7 +242,30 @@ public class CommandManager : MonoBehaviour
     }
     public void OnValidate()
     {
+        if (SquadSelector.Instance != null)
+        {
+            SquadSelector.Instance.UpdateList(log);
+        }
         _log = new List<UnitList>(log);
+    }
+    private void Update()
+    {
+        foreach(Command c in commandMap.Keys)
+        {
+            if (c.marker != null)
+            {
+                c.marker.gameObject.SetActive(false);
+                HashSet<Unit> members = commandMap[c].GetMembers();
+                foreach (Unit u in members)
+                {
+                    if (u.isSelected)
+                    {
+                        c.marker.gameObject.SetActive(true);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
 }

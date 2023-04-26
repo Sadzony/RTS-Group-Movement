@@ -3,25 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UI_Mouse_Detector : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class UI_Mouse_Detector : MonoBehaviour
 {
-    [HideInInspector] public bool mouseOverUI;
-    
+    public bool tooltipEnabled = false;
+    [SerializeField, TextArea]
+    public string tooltipText;
+    RectTransform rectTransform;
     void Start()
     {
         UIManager.Instance.detectors.Add(this);
+        rectTransform = GetComponent<RectTransform>();
+        
     }
     void OnDestroy()
     {
         UIManager.Instance.detectors.Remove(this);
     }
-    public void OnPointerEnter(PointerEventData eventData)
+    public bool IsPointerOverObject()
     {
-        mouseOverUI = true;
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        mouseOverUI = false;
+        Vector2 localMousePosition = rectTransform.InverseTransformPoint(Input.mousePosition);
+        if (rectTransform.rect.Contains(localMousePosition))
+        {
+            return true;
+        }
+        return false;
     }
 }

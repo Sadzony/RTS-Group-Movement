@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7091271785004941320}
   - component: {fileID: 5052631150232020481}
   - component: {fileID: 8549020523252811404}
+  - component: {fileID: 4252175665478549885}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -98,3 +99,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48262c454f50e4c4bb517bd36b2e7ce0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  neighbourDistance: 9
+--- !u!114 &4252175665478549885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8018300818158221879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8654a0bb9b67cae4a97993d60f1cd255, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitSpeed: 5
+  unitRotationTime: 0.1
+  neighbourLoSArcEnabled: 0
+  neighbourLoSArc: 100
+  waypointNearDistance: 1.2
+  waypointNearDistanceSqr: 1.44
+  goalAreaGrowthMultiplier: 8
+  goalReachedSpeed: 1
+  arriveEnabled: 0
+  finishMessagingEnabled: 1
+  steeringPower: 1
+  flockingPower: 0.18
+  seekWeight: 0.5
+  separationWeight: 1
+  separationDistance: 3
+  separationDistanceSqr: 9
+  cohesionWeight: 0.2
+  cohesionDistance: 6
+  cohesionDistanceSqr: 36
+  alignmentWeight: 0.4
+  alignmentDistance: 6
+  alignmentDistanceSqr: 36

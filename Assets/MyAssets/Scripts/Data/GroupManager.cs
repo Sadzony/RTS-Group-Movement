@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -29,7 +28,7 @@ public class GroupManager : MonoBehaviour
 
     //Member variabless
 
-    [SerializeField, Range(1, 20)] private float neighbourDistance;
+    [SerializeField, Range(1, 15)] public float neighbourDistance;
     private float neighbourSquaredDistance;
 
     //Maps a squad to a list of groups. Unit references come from squad
@@ -314,7 +313,7 @@ public class GroupManager : MonoBehaviour
         //compare horizontal distance
         Vector3 dir = new Vector3(unit1.transform.position.x, 0, unit1.transform.position.z) - 
                       new Vector3(unit2.transform.position.x, 0, unit2.transform.position.z);
-        if(Vector3.SqrMagnitude(dir) < neighbourSquaredDistance)
+        if(dir.magnitude < neighbourDistance)
         {
             //Check for navigation Line of Sight - this raycast can walk up slopes
             NavMeshHit hit;

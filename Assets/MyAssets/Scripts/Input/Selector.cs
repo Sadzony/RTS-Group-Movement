@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Selector : MonoBehaviour
-{ 
-
+{
+    public Button button;
     [SerializeField] RectTransform selectionBox;
     [SerializeField] LayerMask SelectCastLayer;
 
@@ -20,45 +20,48 @@ public class Selector : MonoBehaviour
         selectionStartPos = Vector3.zero;
         selectionEndPos = Vector3.zero;
         boxSelection = false;
-        selectionStarted = true;
+        selectionStarted = false;
         clickedUnit = null;
     }
     private void Update()
     {
         HashSet<Unit> selectable = SelectionManager.Instance.GetSelectable();
         //On Click
-        if (Input.GetMouseButtonDown(0) && !UIManager.Instance.getMouseOver()) 
+        if (Input.GetMouseButtonDown(0)) 
         {
-            clickedUnit = null;
-            //Send a raycast from mouse position and select that unit
-            RaycastHit hit;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, SelectCastLayer))
+            if (!UIManager.Instance.getMouseOver())
             {
-                if (selectable.TryGetValue(hit.transform.parent.gameObject.GetComponent<Unit>(), out clickedUnit))
+                clickedUnit = null;
+                //Send a raycast from mouse position and select that unit
+                RaycastHit hit;
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, SelectCastLayer))
                 {
-                    if (Input.GetKey(KeyCode.LeftShift))
+                    if (selectable.TryGetValue(hit.transform.parent.gameObject.GetComponent<Unit>(), out clickedUnit))
                     {
-                        SelectionManager.Instance.ShiftClickSelect(clickedUnit);
+                        if (Input.GetKey(KeyCode.LeftShift))
+                        {
+                            SelectionManager.Instance.ShiftClickSelect(clickedUnit);
 
-                    }
-                    else if (Input.GetKey(KeyCode.LeftControl))
-                    {
-                        SelectionManager.Instance.ControlClickSelect(clickedUnit);
-                    }
-                    else
-                    {
-                        SelectionManager.Instance.ClickSelect(clickedUnit);
+                        }
+                        else if (Input.GetKey(KeyCode.LeftControl))
+                        {
+                            SelectionManager.Instance.ControlClickSelect(clickedUnit);
+                        }
+                        else
+                        {
+                            SelectionManager.Instance.ClickSelect(clickedUnit);
+                        }
                     }
                 }
+                else
+                {
+                    if (!Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.LeftControl))
+                        SelectionManager.Instance.DeselectAll();
+                }
+                selectionStarted = true;
+                //Set start position for selection box
+                selectionStartPos = Input.mousePosition;
             }
-            else 
-            {
-                if (!Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.LeftControl))
-                    SelectionManager.Instance.DeselectAll();
-            }
-            selectionStarted = true;
-            //Set start position for selection box
-            selectionStartPos = Input.mousePosition;
         }
         //On Hold
         if(Input.GetMouseButton(0) && selectionStarted)
@@ -149,8 +152,13 @@ public class Selector : MonoBehaviour
             selectionRect.yMax = selectionEndPos.y;
         }
     }
+    private void OnEnable()
+    {
+        button.interactable = false;
+    }
     private void OnDisable()
     {
+        button.interactable = true;
         boxSelection = false;
         if (selectionBox != null)
         {

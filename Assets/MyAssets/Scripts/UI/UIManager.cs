@@ -23,16 +23,34 @@ public class UIManager : MonoBehaviour
         }
     }
     public List<UI_Mouse_Detector> detectors;
-
+    bool mouseOverUI = false;
+    public bool velocityDebugEnabled = false;
+    public bool neighbourhoodDebugEnabled = false;
+    public bool pathDebugEnabled = false;
     public bool getMouseOver()
     {
-        bool mouseOverUI = false;
+        return mouseOverUI;
+    }
+    private void Update()
+    {
+        mouseOverUI = false;
+        bool tooltipEnabled = false;
         foreach (UI_Mouse_Detector detector in detectors)
         {
-            if (detector.mouseOverUI == true) mouseOverUI = true;
+            if (detector.IsPointerOverObject())
+            {
+                mouseOverUI = true;
+                if (detector.tooltipEnabled)
+                {
+                    tooltipEnabled = true;
+                    Tooltip.Instance.Show(detector.tooltipText);
+                }
+            }
         }
-        return mouseOverUI;
-
-
+        if (mouseOverUI && tooltipEnabled) {
+            Tooltip.Instance.UpdateText();
+            Tooltip.Instance.UpdateTooltipPosition();
+        } 
+        else Tooltip.Instance.Hide();
     }
 }

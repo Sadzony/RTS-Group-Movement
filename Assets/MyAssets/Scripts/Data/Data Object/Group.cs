@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,13 +14,19 @@ public class Group : MonoBehaviour
     public Dictionary<Unit, HashSet<Unit>> neighbourMap = new Dictionary<Unit, HashSet<Unit>>();
 
     public Waypoint goalNode;
-    public HashSet<Waypoint> leaves = new HashSet<Waypoint>();
+    public Vector3 goalCentre;
+    public Vector3 groupCentre = Vector3.zero;
     public Dictionary<Unit, Waypoint> unitPaths = new Dictionary<Unit, Waypoint>();
+
+    public HashSet<Unit> completedSet = new HashSet<Unit>();
+
+    public float finishDistance = 0.0f;
 
     public Group()
     {
         members = new HashSet<Unit>();
         neighbourMap = new Dictionary<Unit, HashSet<Unit>>();
+        
     }
     public int Count()
     {
@@ -32,6 +36,7 @@ public class Group : MonoBehaviour
     {
         owner = squad;
         goalNode = squad.goalNode;
+        goalCentre = goalNode.position;
     }
     public void Dismantle()
     {
@@ -40,7 +45,14 @@ public class Group : MonoBehaviour
             GroupManager.Instance.GroupDisown(unit);
         }
         GroupManager.Instance.RemoveGroup(owner, this);
-        Destroy(gameObject);
+        if(gameObject != null)
+            Destroy(gameObject);
+    }
+    public HashSet<Unit> GetNeighbours(Unit unit)
+    {
+        if (neighbourMap.TryGetValue(unit, out HashSet<Unit> output))
+            return new HashSet<Unit>(output);
+        return new HashSet<Unit>();
     }
     public void JoinGroup(Unit unit)
     {
@@ -55,6 +67,8 @@ public class Group : MonoBehaviour
         {
             FindPath(unit);
         }
+        if (!firstUnitAdded)
+        { AddToFinishDistance(unit); firstUnitAdded = true; }
         GroupManager.Instance.GroupOwn(this, unit);
     }
     public void LeaveGroup(Unit unit)
@@ -84,8 +98,12 @@ public class Group : MonoBehaviour
     {
         //copy the other group data
         HashSet<Unit> otherMembers = new HashSet<Unit>(other.members);
+        HashSet<Unit> otherCompleted = new HashSet<Unit>(other.completedSet);
         Dictionary<Unit, HashSet<Unit>> otherNeighbours = new Dictionary<Unit, HashSet<Unit>>(other.neighbourMap);
         Dictionary<Unit, Waypoint> otherPaths = new Dictionary<Unit, Waypoint>(other.unitPaths);
+
+        if (other.finishDistance > this.finishDistance)
+            finishDistance = other.finishDistance;
 
         //Dismantle other group
         other.Dismantle();
@@ -99,133 +117,69 @@ public class Group : MonoBehaviour
                 neighbourMap.Add(unit, neighbours);
             if(otherPaths.TryGetValue(unit, out Waypoint node))
                 unitPaths.Add(unit, node);
+            if (otherCompleted.Contains(unit))
+            {
+                completedSet.Add(unit);
+                AddToFinishDistance(unit);
+            }
         }
+        UpdateGoalCentre();
         OnValidate();
 
         return this;
     }
-    private void FindPath(Unit unit)
+    public void FindPath(Unit unit)
     {
         //LoS to goal - if in sight, then no need to find path
         NavMeshHit hit;
         if (!NavMesh.Raycast(unit.transform.position, goalNode.position, out hit, NavMesh.AllAreas))
         {
             //in sight, set the goal node as current node
-            unitPaths.Add(unit, goalNode);
-        }
-        //If leaves exist, then a valid path might already be present
-        else if (leaves.Count > 0)
-        {
-            HashSet<Waypoint> exploredNodes = new HashSet<Waypoint>();
-            HashSet<Waypoint> searchSet = new HashSet<Waypoint>(leaves);
-            bool match = false;
-            Waypoint outputNode = null;
-            while(match == false)
-            {
-                //if the search set is empty, exit while loop
-                if (searchSet.Count <= 0)
-                    break;
-                List<Waypoint> searchList = searchSet.ToList();
-                foreach (Waypoint node in searchList)
-                {
-                    //If the node was already explored, then the branch can be removed from the search set
-                    if (exploredNodes.Contains(node) || node == goalNode)
-                    {
-                        searchSet.Remove(node);
-                        continue;
-                    }
-                    exploredNodes.Add(node);
-                    //LoS check to the path node
-                    if (!NavMesh.Raycast(unit.transform.position, node.position, out hit, NavMesh.AllAreas))
-                    {
-                        outputNode = node;
-                        match = true;
-                        break;
-                    }
-
-                    //Remove the current node at the search set and replace it with the next node in path
-                    searchSet.Remove(node);
-                    searchSet.Add(node.next);
-                }
-            }
-            //If there was a match, continue down that branch until cannot see the next waypoint
-            if(match)
-            {
-                bool seeNext = true;
-                while (seeNext)
-                {
-                    Waypoint next = outputNode.next;
-                    if (NavMesh.Raycast(unit.transform.position, next.position, out hit, NavMesh.AllAreas))
-                    {
-                        seeNext = false;
-                        break;
-                    }
-                    outputNode = next;
-                }
-                unitPaths.Add(unit, outputNode);
-            }
-            //if there was no match, find path
+            if(!unitPaths.ContainsKey(unit))
+                unitPaths.Add(unit, goalNode);
             else
-            {
-                NavMeshPath outputPath = new NavMeshPath();
-                NavMesh.CalculatePath(unit.transform.position, goalNode.position, NavMesh.AllAreas, outputPath);
-                unitPaths.Add(unit, ConvertToWaypoints(outputPath));
-            }
-
+                unitPaths[unit] = goalNode;
         }
-        //If there are no leaves, then the unit finds the first path
         else
         {
             NavMeshPath outputPath = new NavMeshPath();
-            NavMesh.CalculatePath(unit.transform.position, goalNode.position, NavMesh.AllAreas, outputPath);
-            unitPaths.Add(unit, ConvertToWaypoints(outputPath));
+            NavMesh.CalculatePath(unit.agent.nextPosition, goalNode.position, NavMesh.AllAreas, outputPath);
+            if (!unitPaths.ContainsKey(unit))
+                unitPaths.Add(unit, ConvertToWaypoints(outputPath));
+            else
+                unitPaths[unit] = ConvertToWaypoints(outputPath);
         }
     }
     private Waypoint ConvertToWaypoints(NavMeshPath path)
     {
         Waypoint currentWaypoint = goalNode;
-        //Finding the waypoint at which the path branches from the existing paths
+
         //Start from goal. Ignore first and last corner. First is the unit's position and last is the goal position.
-        int i;
-        for(i = path.corners.Length -1; i > 0; i--)
+
+        //Iterate the  points and create waypoints
+        if (path.corners.Count() > 2)
         {
-            bool match = false;
-            //Check the branches at current waypoint
-            foreach(Waypoint branch in currentWaypoint.branches)
+            for (int j = path.corners.Length - 2; j > 0; j--)
             {
-                //If the path corner matches a branch then they're the same point, so continue search
-                if (branch.isEqual(path.corners[i]))
-                {
-                    match = true;
-                    currentWaypoint = branch;
-                    //If this is the last corner of the path, and it matches an existing branch, then the path is the same as existing path
-                    if (i == 1)
-                        return branch;
-                    break;
-                }
+
+                Vector3 position = path.corners[j];
+                Waypoint pathPoint = new Waypoint(path.corners[j], position);
+                pathPoint.next = currentWaypoint;
+                currentWaypoint = pathPoint;
             }
-            //If the search didn't match any branches, then the branch is created at currentWaypoint
-            if(!match)
-                break;
         }
-        //Iterate the remaining points and create waypoints
-        for (int j = i; j > 0; j--)
-        {
-            Waypoint pathPoint = new Waypoint(path.corners[j]);
-            pathPoint.next = currentWaypoint;
-            currentWaypoint.branches.Add(pathPoint);
-            //Update leaves
-            if(leaves.Contains(currentWaypoint))
-            {
-                leaves.Remove(currentWaypoint);
-                leaves.Add(pathPoint);
-            }
-            currentWaypoint = pathPoint;
-        }
-        if(!leaves.Contains(currentWaypoint))
-            leaves.Add(currentWaypoint);
 
         return currentWaypoint;
+    }
+    public void PopAll(Unit unit)
+    {
+        if (unitPaths.TryGetValue(unit, out Waypoint node))
+        {
+            unitPaths[unit] = null;
+            completedSet.Add(unit);
+            AddToFinishDistance(unit);
+            unit.CompleteCommand();
+        }
     }
     public void PopWaypoint(Unit unit)
     {
@@ -233,7 +187,39 @@ public class Group : MonoBehaviour
         {
             if (node.next != null)
                 unitPaths[unit] = node.next;
+            if(node == goalNode)
+            {
+                completedSet.Add(unit);
+                AddToFinishDistance(unit);
+                unit.CompleteCommand();
+                unitPaths[unit] = null;
+            }
         }
+    }
+    bool firstUnitAdded = false;
+    float totalUnitArea = 0.0f;
+    void AddToFinishDistance(Unit unit)
+    {
+        //The distance is the radius of the sum of areas * multiplier
+        float unitArea = Mathf.PI * unit.agent.radius * unit.agent.radius;
+        totalUnitArea += unitArea * SteeringData.Instance.goalAreaGrowthMultiplier;
+        finishDistance = Mathf.Sqrt(totalUnitArea/Mathf.PI);
+        UpdateGoalCentre();
+    }
+    void UpdateGoalCentre()
+    {
+        //If there are units in the completed set, find their mean position
+        if (completedSet.Count > 0)
+        {
+            Vector3 meanPos = goalNode.position;
+            foreach (Unit u in completedSet)
+                meanPos += u.agent.nextPosition;
+            meanPos /= completedSet.Count + 1;
+            goalCentre = meanPos;
+        }
+        //otherwise use goal node position
+        else
+            goalCentre = goalNode.position;
     }
     private void OnValidate()
     {
@@ -249,6 +235,12 @@ public class Group : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //Vector3 meanPos = Vector3.zero;
+        //foreach(Unit u in members)
+        //{
+        //    meanPos+=u.agent.nextPosition;
+        //}
+        //meanPos/= members.Count;
+        //groupCentre = meanPos + new Vector3(0, 0.5f, 0);
     }
 }

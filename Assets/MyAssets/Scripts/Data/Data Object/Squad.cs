@@ -7,7 +7,7 @@ using UnityEngine;
 public class UnitList
 {
     [SerializeField] private List<Unit> list;
-    private HashSet<Unit> set;
+    public HashSet<Unit> set;
 
     public UnitList()
     {

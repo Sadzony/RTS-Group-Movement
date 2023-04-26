@@ -19,6 +19,7 @@ public class Command
         }
         target = p_target;
     }
+    public LineRenderer marker;
     public Vector3 target;
     public CommandType type = CommandType.Empty;
     public Dictionary<Unit, bool> completionMap = new Dictionary<Unit, bool>();
