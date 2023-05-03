@@ -36,11 +36,17 @@ public class UnitSpawner : MonoBehaviour
             {
                 //Find position on navmesh from the hit position
                 NavMeshHit navMeshHit;
-                if(NavMesh.SamplePosition(hit.point, out navMeshHit, 5.0f, NavMesh.AllAreas))
+                for (int i = 0; i < 5; i++)
                 {
-                    //Spawn unit
-                    float yRotation = Random.Range(-179.9f, 179.9f);
-                    GameObject.Instantiate(unitPrefab, navMeshHit.position, Quaternion.Euler(0, yRotation, 0));
+                    float offsetX = Random.Range(-1.0f, 1.0f);
+                    float offsetZ = Random.Range(-1.0f, 1.0f);
+
+                    if (NavMesh.SamplePosition(hit.point + new Vector3(offsetX, 0, offsetZ), out navMeshHit, 5.0f, NavMesh.AllAreas))
+                    {
+                        //Spawn unit
+                        float yRotation = Random.Range(-179.9f, 179.9f);
+                        GameObject.Instantiate(unitPrefab, navMeshHit.position, Quaternion.Euler(0, yRotation, 0));
+                    }
                 }
             }
         }
@@ -57,11 +63,16 @@ public class UnitSpawner : MonoBehaviour
                 {
                     //Find position on navmesh from the hit position
                     NavMeshHit navMeshHit;
-                    if (NavMesh.SamplePosition(hit.point, out navMeshHit, 5.0f, NavMesh.AllAreas))
+                    for (int i = 0; i < 5; i++)
                     {
-                        //Spawn unit
-                        float yRotation = Random.Range(-179.9f, 179.9f);
-                        GameObject.Instantiate(unitPrefab, navMeshHit.position, Quaternion.Euler(0, yRotation, 0));
+                        float offsetX = Random.Range(-1.0f, 1.0f);
+                        float offsetZ = Random.Range(-1.0f, 1.0f);
+                        if (NavMesh.SamplePosition(hit.point + new Vector3(offsetX, 0, offsetZ), out navMeshHit, 5.0f, NavMesh.AllAreas))
+                        {
+                            //Spawn unit
+                            float yRotation = Random.Range(-179.9f, 179.9f);
+                            GameObject.Instantiate(unitPrefab, navMeshHit.position, Quaternion.Euler(0, yRotation, 0));
+                        }
                     }
                 }
             }

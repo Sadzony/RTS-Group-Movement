@@ -1258,7 +1258,6 @@ GameObject:
   - component: {fileID: 6810284558726649976}
   - component: {fileID: 752025741550082905}
   - component: {fileID: 4227912154168523137}
-  - component: {fileID: 6739104025770443677}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -1324,20 +1323,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6739104025770443677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 795151555563113876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c85086003aa3674e9c3f655db97956b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tooltipEnabled: 0
-  tooltipText: 
 --- !u!1 &814475498830003566
 GameObject:
   m_ObjectHideFlags: 0
@@ -1490,7 +1475,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -3.3, y: -298.9}
+  m_AnchoredPosition: {x: -3.300003, y: -298.9}
   m_SizeDelta: {x: -57.44509, y: -74.64995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3914366394970376252
@@ -3028,7 +3013,6 @@ GameObject:
   - component: {fileID: 7982297671167167420}
   - component: {fileID: 8367626782513537917}
   - component: {fileID: 8671306441682356953}
-  - component: {fileID: 2980486308368565916}
   m_Layer: 5
   m_Name: Foreground
   m_TagString: Untagged
@@ -3094,20 +3078,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2980486308368565916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2080309055395540282}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c85086003aa3674e9c3f655db97956b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tooltipEnabled: 0
-  tooltipText: 
 --- !u!1 &2153977601065433766
 GameObject:
   m_ObjectHideFlags: 0
@@ -3119,7 +3089,6 @@ GameObject:
   - component: {fileID: 8907547706074588567}
   - component: {fileID: 8541198060670556191}
   - component: {fileID: 2176435168009800013}
-  - component: {fileID: 4335503459438980119}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -3185,20 +3154,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4335503459438980119
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2153977601065433766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c85086003aa3674e9c3f655db97956b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tooltipEnabled: 0
-  tooltipText: 
 --- !u!1 &2174624896321406684
 GameObject:
   m_ObjectHideFlags: 0
@@ -3235,7 +3190,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.099998474, y: -30.199997}
+  m_AnchoredPosition: {x: 0.1000061, y: -30.199997}
   m_SizeDelta: {x: -57.44509, y: -74.64995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &652521732388117845
@@ -3456,7 +3411,8 @@ MonoBehaviour:
 
     agents towards the average position of their
 
-    neighbours'
+    neighbours,
+    bringing the agents closer together.'
 --- !u!114 &3647458600964217709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3937,7 +3893,6 @@ GameObject:
   - component: {fileID: 5020802102408760337}
   - component: {fileID: 6257757325946559371}
   - component: {fileID: 2981595873612164063}
-  - component: {fileID: 5191388293871183468}
   m_Layer: 5
   m_Name: Foreground
   m_TagString: Untagged
@@ -4003,20 +3958,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5191388293871183468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2646833383415734731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c85086003aa3674e9c3f655db97956b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tooltipEnabled: 0
-  tooltipText: 
 --- !u!1 &2730373457491341129
 GameObject:
   m_ObjectHideFlags: 0
@@ -4235,7 +4176,12 @@ MonoBehaviour:
     The alignment behaviour
     is responsible for
 
-    averaging the neighbouring velocities.'
+    averaging the neighbouring velocities,
+
+    making agents
+    more likely to head in the same
+
+    direction.'
 --- !u!114 &8708532433555005594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4572,7 +4518,6 @@ GameObject:
   - component: {fileID: 5387471313869568371}
   - component: {fileID: 7738981315577777213}
   - component: {fileID: 391036503321270943}
-  - component: {fileID: 1911446162252964513}
   m_Layer: 5
   m_Name: Foreground
   m_TagString: Untagged
@@ -4638,20 +4583,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1911446162252964513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2773128888970403383}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c85086003aa3674e9c3f655db97956b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tooltipEnabled: 0
-  tooltipText: 
 --- !u!1 &2803871955526676112
 GameObject:
   m_ObjectHideFlags: 0
@@ -5610,7 +5541,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.099998474, y: 5.799999}
+  m_AnchoredPosition: {x: 0.1000061, y: 5.799999}
   m_SizeDelta: {x: -57.44509, y: -74.64995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1089533086366776954
@@ -5705,7 +5636,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -3.3, y: -236.2}
+  m_AnchoredPosition: {x: -3.300003, y: -236.20001}
   m_SizeDelta: {x: -57.44509, y: -74.64995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6344781910547091640
@@ -6207,7 +6138,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.6
+  m_Value: 0.65
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -6236,12 +6167,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tooltipEnabled: 1
-  tooltipText: 'Weight of the separation behaviour.
+  tooltipText: 'Weight of the separation behaviour, controlling
+
+    how powerful
+    this behaviour is relative to the
+
+    other behaviours.
 
     Separation is responsible
     for steering the
 
-    agents away from their neighbour''s positions.'
+    agents away from their neighbour''s positions,
+
+    keeping
+    them a distance apart from others.'
 --- !u!114 &5244952839076046481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6801,7 +6740,6 @@ GameObject:
   - component: {fileID: 8931337353934508477}
   - component: {fileID: 1468718929868422760}
   - component: {fileID: 2398317582373750991}
-  - component: {fileID: 8650497874940087595}
   m_Layer: 5
   m_Name: Foreground
   m_TagString: Untagged
@@ -6867,20 +6805,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8650497874940087595
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4205256854099041011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c85086003aa3674e9c3f655db97956b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tooltipEnabled: 0
-  tooltipText: 
 --- !u!1 &4224774171154395566
 GameObject:
   m_ObjectHideFlags: 0
@@ -6917,7 +6841,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -3.3, y: -204.1}
+  m_AnchoredPosition: {x: -3.300003, y: -204.1}
   m_SizeDelta: {x: -57.44509, y: -74.64995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1100372181274686636
@@ -7089,6 +7013,101 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &4306777329234621219
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8801352825622659210}
+  - component: {fileID: 8375929047000696728}
+  - component: {fileID: 7629005579295095622}
+  - component: {fileID: 7620248096248853346}
+  m_Layer: 5
+  m_Name: FPS Counter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8801352825622659210
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4306777329234621219}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.08, y: 1.08, z: 1.08}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8625717506081685885}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 278.5, y: 26.775024}
+  m_Pivot: {x: 0, y: 1}
+--- !u!222 &8375929047000696728
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4306777329234621219}
+  m_CullTransparentMesh: 1
+--- !u!114 &7629005579295095622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4306777329234621219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.05724919, g: 1, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 20
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 1
+    m_MaxSize: 40
+    m_Alignment: 1
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'FPS: '
+--- !u!114 &7620248096248853346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4306777329234621219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b081fddb8083744488df109ef2c1a973, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fpsText: {fileID: 7629005579295095622}
+  _hudRefreshRate: 0.05
 --- !u!1 &4346710674713263299
 GameObject:
   m_ObjectHideFlags: 0
@@ -7497,7 +7516,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0.6
+  m_Text: 0.65
 --- !u!114 &2908819176443556951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7892,7 +7911,6 @@ GameObject:
   - component: {fileID: 2878954502880051074}
   - component: {fileID: 2574644785587004345}
   - component: {fileID: 2018874745739019983}
-  - component: {fileID: 8487257341328759550}
   m_Layer: 5
   m_Name: 'Background '
   m_TagString: Untagged
@@ -7958,20 +7976,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8487257341328759550
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4810601165602487665}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c85086003aa3674e9c3f655db97956b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tooltipEnabled: 0
-  tooltipText: 
 --- !u!1 &4857157241148106710
 GameObject:
   m_ObjectHideFlags: 0
@@ -8712,7 +8716,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -3.3, y: -341.1}
+  m_AnchoredPosition: {x: -3.300003, y: -341.1}
   m_SizeDelta: {x: -57.44509, y: -74.64995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8936649661704236971
@@ -9117,12 +9121,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tooltipEnabled: 1
-  tooltipText: 'Weight of the alignment behaviour.
+  tooltipText: 'Weight of the alignment behaviour, controlling
 
-    The alignment behaviour is
-    responsible for
+    how powerful
+    this behaviour is relative to the
 
-    averaging the neighbouring velocities.'
+    other behaviours.
+
+    The alignment behaviour
+    is responsible for
+
+    averaging the neighbouring velocities,
+
+    making agents
+    more likely to head in the same
+
+    direction.'
 --- !u!114 &792610917075211987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9655,14 +9669,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tooltipEnabled: 1
-  tooltipText: 'Weight of the cohesion behaviour.
+  tooltipText: 'Weight of the cohesion behaviour, controlling
 
-    Cohesion is responsible for
-    steering the
+    how powerful this
+    behaviour is relative to the
+
+    other behaviours.
+
+    Cohesion is responsible
+    for steering the
 
     agents towards the average position of their
 
-    neighbours'
+    neighbours,
+    bringing the agents closer together.'
 --- !u!114 &5169642589165380536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10172,6 +10192,7 @@ RectTransform:
   - {fileID: 2251308329794687782}
   - {fileID: 8653614010341367560}
   - {fileID: 3360506537862210478}
+  - {fileID: 8801352825622659210}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10217,7 +10238,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 2560, y: 1440}
+  m_ReferenceResolution: {x: 2140, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -10921,7 +10942,6 @@ GameObject:
   - component: {fileID: 8353942772784155071}
   - component: {fileID: 2253474434170284182}
   - component: {fileID: 9049110888973285460}
-  - component: {fileID: 8553037258742192138}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -10987,20 +11007,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8553037258742192138
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6891266182494984673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c85086003aa3674e9c3f655db97956b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tooltipEnabled: 0
-  tooltipText: 
 --- !u!1 &6954067766074995069
 GameObject:
   m_ObjectHideFlags: 0
@@ -11132,7 +11138,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -3.3, y: -171.9}
+  m_AnchoredPosition: {x: -3.300003, y: -171.9}
   m_SizeDelta: {x: -57.44509, y: -74.64995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2841301849463214266
@@ -11315,7 +11321,6 @@ GameObject:
   - component: {fileID: 8317685090022622353}
   - component: {fileID: 3619839982129611542}
   - component: {fileID: 8623361066908790619}
-  - component: {fileID: 8894061104656526907}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -11381,20 +11386,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8894061104656526907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7290757128530570018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c85086003aa3674e9c3f655db97956b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tooltipEnabled: 0
-  tooltipText: 
 --- !u!1 &7468305402777074052
 GameObject:
   m_ObjectHideFlags: 0
@@ -12510,7 +12501,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.9000015, y: -81.5}
+  m_AnchoredPosition: {x: 0.8999939, y: -81.5}
   m_SizeDelta: {x: -57.445084, y: -74.64995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8200052620914431807
@@ -13724,7 +13715,10 @@ MonoBehaviour:
     Separation is responsible
     for steering the
 
-    agents away from their neighbour''s positions.'
+    agents away from their neighbour''s positions,
+
+    keeping
+    them a distance apart from others.'
 --- !u!114 &8881626483243708346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13924,7 +13918,6 @@ GameObject:
   - component: {fileID: 2772796526870412557}
   - component: {fileID: 1449408273514188574}
   - component: {fileID: 5496185431887279959}
-  - component: {fileID: 4727559036580865399}
   m_Layer: 5
   m_Name: Foreground
   m_TagString: Untagged
@@ -13990,20 +13983,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4727559036580865399
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9007020052655724375}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c85086003aa3674e9c3f655db97956b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tooltipEnabled: 0
-  tooltipText: 
 --- !u!1 &9187239171143992255
 GameObject:
   m_ObjectHideFlags: 0
